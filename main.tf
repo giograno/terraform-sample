@@ -155,9 +155,17 @@ resource "aws_subnet" "private_subnet_three" {
 
 resource "aws_internet_gateway" "internet_gateway" {}
 
-# resource "aws_ec2_transit_gateway_vpc_attachment" "gateway_attachement" {
-#   vpc_id = aws_internet_gateway.internet_gateway.id
-# }
+resource "aws_ec2_transit_gateway" "transit_gateway" {}
+
+resource "aws_ec2_transit_gateway_vpc_attachment" "gateway_attachement" {
+  subnet_ids = [
+    aws_subnet.private_subnet_one.id,
+    aws_subnet.private_subnet_two.id,
+    aws_subnet.private_subnet_three.id
+  ]
+  vpc_id = aws_vpc.vpc.id
+  transit_gateway_id = aws_ec2_transit_gateway.transit_gateway.id
+}
 
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.vpc.id

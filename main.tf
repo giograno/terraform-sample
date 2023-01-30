@@ -479,7 +479,7 @@ resource "aws_iam_role_policy" "dynamodb-table-access" {
               "dynamodb:Update*",
               "dynamodb:PutItem"
             ]
-            Resource = aws_dynamodb_table.dynamo_db_table_petstore_pets.arn
+            Resource = "*"
           }
         ]
   })
@@ -548,7 +548,7 @@ resource "aws_ecs_task_definition" "task_definition_foodstore_foods" {
       "image": "localstack.container-registry.com/library/foodstore",
       "essential": true,
       "environment": [
-        {"name": "DynamoDBTable", "value": "aws_dynamodb_table.dynamo_db_table_foodstore_foods.arn"}
+        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_foodstore_foods.arn}"}
       ],
       "portMappings": [
         {
@@ -575,7 +575,7 @@ resource "aws_ecs_task_definition" "task_definition_petstore_pets" {
       "image": "localstack.container-registry.com/library/petstore",
       "essential": true,
       "environment": [
-        {"name": "DynamoDBTable", "value": "aws_dynamodb_table.dynamo_db_table_petstore_pets.arn"}
+        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_petstore_pets.arn}"}
       ],
       "portMappings": [
         {

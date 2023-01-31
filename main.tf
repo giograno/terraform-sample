@@ -8,34 +8,6 @@ provider "aws" {
   region = "us-east-1"
 }
 
-locals {
-  mappings = {
-    SubnetConfig = {
-      VPC = {
-        CIDR = "10.0.0.0/16"
-      }
-      PublicOne = {
-        CIDR = "10.0.0.0/24"
-      }
-      PublicTwo = {
-        CIDR = "10.0.1.0/24"
-      }
-      PublicThree = {
-        CIDR = "10.0.2.0/24"
-      }
-      PrivateOne = {
-        CIDR = "10.0.100.0/24"
-      }
-      PrivateTwo = {
-        CIDR = "10.0.101.0/24"
-      }
-      PrivateThree = {
-        CIDR = "10.0.102.0/24"
-      }
-    }
-  }
-}
-
 variable "environment_name" {
   description = "A friendly environment name that will be used for namespacing all cluster resources. Example: staging, qa, or production"
   type = string

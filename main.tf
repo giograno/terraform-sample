@@ -672,10 +672,11 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
 resource "aws_apigatewayv2_api" "http_api" {
   name = var.environment_name
   protocol_type = "HTTP"
-  body = jsonencode({
+  body = jsonencode(
+    {
     openapi = "3.0.1"
     info = {
-      title = var.environment_name
+      title = "${var.environment_name}"
     }
     components = {
       securitySchemes = {
@@ -687,9 +688,9 @@ resource "aws_apigatewayv2_api" "http_api" {
             identitySource = "$request.header.Authorization"
             jwtConfiguration = {
               audience = [
-                aws_cognito_user_pool_client.user_pool_client.client_secret
+                "${aws_cognito_user_pool_client.user_pool_client.client_secret}"
               ]
-              issuer = aws_cognito_user_pool.user_pool.id
+              issuer = "${aws_cognito_user_pool.user_pool.id}"
             }
             type = "jwt"
           }
@@ -706,10 +707,10 @@ resource "aws_apigatewayv2_api" "http_api" {
           }
           x-amazon-apigateway-integration = {
             payloadFormatVersion = "1.0"
-            connectionId = aws_apigatewayv2_vpc_link.http_api_vpc_link.id
+            connectionId = "${aws_apigatewayv2_vpc_link.http_api_vpc_link.id}"
             type = "http_proxy"
             httpMethod = "ANY"
-            uri = aws_service_discovery_service.service_discovery_service_foodstore_foods.arn
+            uri = "${aws_service_discovery_service.service_discovery_service_foodstore_foods.arn}"
             connectionType = "VPC_LINK"
           }
         }
@@ -727,10 +728,10 @@ resource "aws_apigatewayv2_api" "http_api" {
           ]
           x-amazon-apigateway-integration = {
             payloadFormatVersion = "1.0"
-            connectionId = aws_apigatewayv2_vpc_link.http_api_vpc_link.id
+            connectionId = "${aws_apigatewayv2_vpc_link.http_api_vpc_link.id}"
             type = "http_proxy"
             httpMethod = "ANY"
-            uri = aws_service_discovery_service.service_discovery_service_foodstore_foods.arn
+            uri = "${aws_service_discovery_service.service_discovery_service_foodstore_foods.arn}"
             connectionType = "VPC_LINK"
           }
         }
@@ -744,10 +745,10 @@ resource "aws_apigatewayv2_api" "http_api" {
           }
           x-amazon-apigateway-integration = {
             payloadFormatVersion = "1.0"
-            connectionId = aws_apigatewayv2_vpc_link.http_api_vpc_link.id
+            connectionId = "${aws_apigatewayv2_vpc_link.http_api_vpc_link.id}"
             type = "http_proxy"
             httpMethod = "ANY"
-            uri = aws_service_discovery_service.service_discovery_service_petstore_pets.arn
+            uri = "${aws_service_discovery_service.service_discovery_service_petstore_pets.arn}"
             connectionType = "VPC_LINK"
           }
         }
@@ -765,10 +766,10 @@ resource "aws_apigatewayv2_api" "http_api" {
           ]
           x-amazon-apigateway-integration = {
             payloadFormatVersion = "1.0"
-            connectionId = aws_apigatewayv2_vpc_link.http_api_vpc_link.id
+            connectionId = "${aws_apigatewayv2_vpc_link.http_api_vpc_link.id}"
             type = "http_proxy"
             httpMethod = "ANY"
-            uri = aws_service_discovery_service.service_discovery_service_petstore_pets.arn
+            uri = "${aws_service_discovery_service.service_discovery_service_petstore_pets.arn}"
             connectionType = "VPC_LINK"
           }
         }
@@ -787,7 +788,8 @@ resource "aws_apigatewayv2_api" "http_api" {
       ]
     }
     x-amazon-apigateway-importexport-version = "1.0"
-  })
+  }
+  )
 }
 
 resource "aws_apigatewayv2_stage" "http_api_stage" {

@@ -107,7 +107,7 @@ resource "aws_dynamodb_table" "dynamo_db_table_petstore_pets" {
 resource "aws_vpc" "vpc" {
   enable_dns_support = true
   enable_dns_hostnames = true
-  cidr_block = local.mappings["SubnetConfig"]["VPC"]["CIDR"]
+  cidr_block = "10.0.0.0/16"
 }
 
 data "aws_availability_zones" "available" {
@@ -117,40 +117,40 @@ data "aws_availability_zones" "available" {
 resource "aws_subnet" "public_subnet_one" {
   availability_zone = element(data.aws_availability_zones.available.names, 0)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PublicOne"]["CIDR"]
+  cidr_block = "10.0.0.0/24"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "public_subnet_two" {
   availability_zone = element(data.aws_availability_zones.available.names, 1)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PublicTwo"]["CIDR"]
+  cidr_block = "10.0.1.0/24"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "public_subnet_three" {
   availability_zone = element(data.aws_availability_zones.available.names, 2)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PublicThree"]["CIDR"]
+  cidr_block = "10.0.2.0/24"
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "private_subnet_one" {
   availability_zone = element(data.aws_availability_zones.available.names, 0)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PrivateOne"]["CIDR"]
+  cidr_block = "10.0.100.0/24"
 }
 
 resource "aws_subnet" "private_subnet_two" {
   availability_zone = element(data.aws_availability_zones.available.names, 1)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PrivateTwo"]["CIDR"]
+  cidr_block = "10.0.101.0/24"
 }
 
 resource "aws_subnet" "private_subnet_three" {
   availability_zone = element(data.aws_availability_zones.available.names, 2)
   vpc_id = aws_vpc.vpc.id
-  cidr_block = local.mappings["SubnetConfig"]["PrivateThree"]["CIDR"]
+  cidr_block = "10.0.102.0/24"
 }
 
 resource "aws_internet_gateway" "internet_gateway" {}

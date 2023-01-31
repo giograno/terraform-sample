@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export AWS_DEFAULT_REGION=us-east-1
+
 # Note: start up LocalStack with:
 #  * EXTRA_CORS_ALLOWED_ORIGINS=http://sample-app.s3.localhost.localstack.cloud:4566
 #  * DISABLE_CUSTOM_CORS_APIGATEWAY=1

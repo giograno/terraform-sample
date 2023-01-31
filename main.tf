@@ -520,12 +520,12 @@ resource "aws_ecs_task_definition" "task_definition_foodstore_foods" {
       "image": "localstack.container-registry.com/library/foodstore",
       "essential": true,
       "environment": [
-        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_foodstore_foods.arn}"}
+        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_foodstore_foods.name}"}
       ],
       "portMappings": [
         {
           "protocol": "tcp",
-          "container_port": 8080
+          "containerPort": 8080
         }
       ]
     }
@@ -547,12 +547,12 @@ resource "aws_ecs_task_definition" "task_definition_petstore_pets" {
       "image": "localstack.container-registry.com/library/petstore",
       "essential": true,
       "environment": [
-        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_petstore_pets.arn}"}
+        {"name": "DynamoDBTable", "value": "${aws_dynamodb_table.dynamo_db_table_petstore_pets.name}"}
       ],
       "portMappings": [
         {
           "protocol": "tcp",
-          "container_port": 8080
+          "containerPort": 8080
         }
       ]
     }
@@ -570,7 +570,7 @@ resource "aws_ecs_service" "service_foodstore_foods" {
   launch_type = "FARGATE"
   desired_count = 3
   service_registries {
-    registry_arn = aws_service_discovery_service.service_discovery_service_petstore_pets.arn
+    registry_arn = aws_service_discovery_service.service_discovery_service_foodstore_foods.arn
     port = 8080
   }
   network_configuration {
@@ -662,7 +662,8 @@ resource "aws_apigatewayv2_api" "http_api" {
               audience = [
                 "${aws_cognito_user_pool_client.user_pool_client.client_secret}"
               ]
-              issuer = "${aws_cognito_user_pool.user_pool.id}"
+              # TODO: look into better parity with AWS
+              issuer = "http://localhost:4566/${aws_cognito_user_pool.user_pool.id}"
             }
             type = "jwt"
           }
